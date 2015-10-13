@@ -9,7 +9,7 @@ class MyTable:
   # 初始化表结构
   def createtable(self,colname):
     if len(self.columnname) == 0: 
-      self.columnname = colname.split('|')
+      self.columnname = colname.split(',')
       self.columnsize = len(self.columnname)
     else:
       print "createtable error : table is not null"
@@ -44,7 +44,7 @@ class MyTable:
 
   # 插入一条记录
   def insert(self,colname,colvalue):
-    coln_li = colname.split('|')
+    coln_li = colname.split(',')
     colv_li = colvalue.split('|')
 
     # 指定列名与值的合法性校验
@@ -65,7 +65,7 @@ class MyTable:
     
   # 查找记录
   def selectwhere(self,colname,colvalue):
-    coln_li = colname.split('|')
+    coln_li = colname.split(',')
     colv_li = colvalue.split('|')
     
     # 指定列名与值的合法性校验
@@ -87,9 +87,57 @@ class MyTable:
     return lili
 
 
+  # 排序查找记录
+  def Cmp(self,i,coln_li,colv_li):
+    for idx in range(len(colv_li)):
+      colpos = self.getColPos(coln_li[idx])
+      if self.columnvalue[i][colpos]>colv_li[idx]:
+        return 1
+      elif self.columnvalue[i][colpos]<colv_li[idx]:
+        return -1
+      else:
+        pass
+    return 0
+        
+  def selectwherex(self,colname,colvalue):
+    coln_li = colname.split(',')
+    colv_li = colvalue.split('|')
+    
+    # 指定列名与值的合法性校验
+    if not self.checkCol(coln_li,colv_li):
+      print "select error"
+      return
+
+    lili = []
+    for i in range(len(self.columnvalue)):
+      if self.Cmp(i,coln_li,colv_li)==0:
+        lili.append(self.columnvalue[i])
+    return lili
+  
+
+  # 更新记录
+  def updatewhere(self,ucolname,ucolvalue,colname,colvalue):
+    coln_li = colname.split(',')
+    colv_li = colvalue.split('|')
+    ucoln_li = ucolname.split(',')
+    ucolv_li = ucolvalue.split('|')
+    
+    # 指定列名与值的合法性校验
+    if not self.checkCol(coln_li,colv_li) or not self.checkCol(ucoln_li,ucolv_li):
+      print "update error"
+      return
+
+    for i in range(len(self.columnvalue)):
+      # 找到  
+      if self.Cmp(i,coln_li,colv_li)==0:
+        for idx in range(len(ucolv_li)):
+          colpos = self.getColPos(ucoln_li[idx])
+          self.columnvalue[i][colpos]=ucolv_li[idx]
+
+
   # 删除一条记录
   def deletewhere(self,colname,colvalue):
-    coln_li = colname.split('|')
+    coln_li = colname.split(',')
     colv_li = colvalue.split('|')
 
     # 指定列名与值的合法性校验
@@ -98,18 +146,14 @@ class MyTable:
       return
     
     for i in range(len(self.columnvalue)-1,-1,-1):
-      iFind = 0;
-      for idx in range(len(colv_li)):
-        colpos = self.getColPos(coln_li[idx])
-        if self.columnvalue[i][colpos]==colv_li[idx]:
-          iFind = iFind+1
-        else:
-          break;
-        
-      if iFind == len(colv_li):
+      if self.Cmp(i,coln_li,colv_li)==0:
         del self.columnvalue[i]
 
 
+  # 排序
+  def Sort(self):
+    self.columnvalue.sort()
+  
   # 打印表
   def Print(self):
     for n in self.columnname:

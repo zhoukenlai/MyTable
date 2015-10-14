@@ -10,11 +10,7 @@ tt.insert("aa,dd,cc","11|zhou|xxx")
 tt.Print()
 print ''
 
-where = tt.selectwherex("dd,aa","zhou|11")
-print where
-print ''
-
-tt.updatewhere("aa,cc","1111|2222","dd,aa","1|2")
+where = tt.updatewhere("cc","11111","dd,aa","1|2")
 tt.Print()
 print ''
 
@@ -22,5 +18,16 @@ tt.Sort()
 tt.Print()
 print ''
 
-tt.deletewhere("dd,cc","zhou|")
+where = tt.updatewhere("cc","11111","aa","11")
 tt.Print()
+print ''
+
+#tt.updatewhere("aa,cc","1111|2222","dd,aa","1|2")
+#tt.Print()
+#print ''
+
+#i=tt.halffind(['aa','bb'],['2','3'])
+#print i
+
+#tt.deletewhere("dd,cc","zhou|")
+#tt.Print()

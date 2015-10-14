@@ -1,14 +1,20 @@
 # MyTable
-Python实现的内存表，提供类似的数据库表操作，提高相关场景的开发效率
+Python实现的内存表，提供类似的数据库表操作，提高相关场景的开发效率，可能的应用场景如下：
+1、程序运行时，加载参数表，运行时需要多次读取参数内容的
+2、与数据库操作关联，从数据库查询时保存到该表，进行一定的内存操作后，再更新到数据库
+3、其他业务逻辑中需要做类似二位表操作的
 
 已实现如下API：</p>
-1、createtable</p>
-2、insert</p>
-3、selectwhere</p>
-4、updatewhere</p>
-5、deletewhere</p>
-6、Sort</p>
-7、print</p>
+createtable;
+droptable;
+insert;
+selectwhere;
+updatewhere;
+deletewhere;
+Sort;
+getRows;
+getCols
+print;
 
 更新说明 2015-10-14：</p>
 1、insert支持缺列名插入</p>
